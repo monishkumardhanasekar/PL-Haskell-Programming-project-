@@ -51,7 +51,23 @@ data PostfixExpr =
 --    + When there are no unprocessed tokens, the stack should contain
 --      a single PostfixExpr containing the value to be returned.
 postfixExpr :: String -> PostfixExpr
-postfixExpr _ = error "TODO"
+postfixExpr postfix = evalPostfixExpr (words postfix) []
+
+evalPostfixExpr :: [String] -> [PostfixExpr] -> PostfixExpr
+evalPostfixExpr [] [expr] = expr
+evalPostfixExpr (token:tokens) stack = case token of
+  "+" -> evalPostfixExpr tokens (applyBinaryOp Add stack)
+  "-" -> evalPostfixExpr tokens (applyBinaryOp Sub stack)
+  "*" -> evalPostfixExpr tokens (applyBinaryOp Mul stack)
+  "uminus" -> evalPostfixExpr tokens (applyUnaryOp Uminus stack)
+  _ -> evalPostfixExpr tokens ((Leaf (read token)) : stack)
+
+applyBinaryOp :: (PostfixExpr -> PostfixExpr -> PostfixExpr) -> [PostfixExpr] -> [PostfixExpr]
+applyBinaryOp op (x:y:xs) = (op y x) : xs
+
+applyUnaryOp :: (PostfixExpr -> PostfixExpr) -> [PostfixExpr] -> [PostfixExpr]
+applyUnaryOp op (x:xs) = (op x) : xs
+
 
 testPostfixExpr = do
   print "******* test postfixExpr"

@@ -19,7 +19,23 @@ type Assoc a = [ (String, a) ]
 -- should return Nothing. Hint: use Data.List.assoc imported above
 -- and do notation.
 evalMaybeExpr :: MaybeExpr -> Assoc Int -> Maybe Int
-evalMaybeExpr _ _ = error "TODO"
+evalMaybeExpr (Leaf n) _ = Just n
+evalMaybeExpr (Id id) assoc = lookup id assoc
+evalMaybeExpr (Add expr1 expr2) assoc = do
+  value1 <- evalMaybeExpr expr1 assoc
+  value2 <- evalMaybeExpr expr2 assoc
+  return (value1 + value2)
+evalMaybeExpr (Sub expr1 expr2) assoc = do
+  value1 <- evalMaybeExpr expr1 assoc
+  value2 <- evalMaybeExpr expr2 assoc
+  return (value1 - value2)
+evalMaybeExpr (Mul expr1 expr2) assoc = do
+  value1 <- evalMaybeExpr expr1 assoc
+  value2 <- evalMaybeExpr expr2 assoc
+  return (value1 * value2)
+evalMaybeExpr (Uminus expr) assoc = do
+  val <- evalMaybeExpr expr assoc
+  return (-val)
 
 
 testEvalMaybeExpr = do 
@@ -57,9 +73,9 @@ testEvalMaybeExpr = do
   -- property-based tests
   -- id lookup
   quickCheck $ counterexample "random id lookup ok" $
-    (\ id1 val1 -> evalMaybeExpr (Id id1) [(id1, val1)] == Just val1)
+    (\ id1 value1 -> evalMaybeExpr (Id id1) [(id1, value1)] == Just value1)
   quickCheck $ counterexample "random id lookup fail" $
-    (\ id1 val1 -> evalMaybeExpr (Id id1) [(id1 ++ "x", val1)] == Nothing)
+    (\ id1 value1 -> evalMaybeExpr (Id id1) [(id1 ++ "x", value1)] == Nothing)
   
   -- property-based tests
   -- commutativity

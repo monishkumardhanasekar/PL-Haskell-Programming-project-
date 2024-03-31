@@ -14,7 +14,7 @@ import Test.QuickCheck
 -- a list of singleton lists [e].  *Must use map*.
 -- Hint: use map with a section.
 toSingletonLists :: [e] -> [[e]]
-toSingletonLists _ = error "TODO"
+toSingletonLists = map (\x -> [x])
 
 testToSingletonLists = do
   print "******* toSingletonLists"
@@ -30,7 +30,7 @@ testToSingletonLists = do
 -- Return a list containing f a b for each element b in list.
 -- Hint: use the map function or a list comprehension
 listMap :: (a -> b -> c) -> a -> [b] -> [c]
-listMap _ _ _ = error "TODO"
+listMap f a bs = map (f a) bs
 
 testListMap = do
   print "******* listMap"
@@ -46,7 +46,7 @@ testListMap = do
 -- Hint: define folding function using a lambda or local let/where definition;
 -- also see definition of member in slides.
 member :: Eq e => e -> [e] -> Bool
-member _ _ = error "TODO"
+member e list = foldl (\acc x -> acc || x == e) False list
 
 testMember = do
   print "******* member"
@@ -62,7 +62,7 @@ testMember = do
 -- containing the elements of the list at index 0, n, 2n, 3n, 4n, ...
 -- Hint: use drop
 selectNApart :: Int -> [e] -> [e]
-selectNApart _ _ = error "TODO"
+selectNApart n list = [list !! i | i <- [0, n..length list - 1]]
 
 
 testSelectNApart = do
@@ -98,14 +98,14 @@ testSelectNApart = do
 --   Run:   run these tests when no tests are marked Only.
 --   Skip:  skip these tests.
 allTests = [
-    (Skip testToSingletonLists),
-    (Skip testListMap),
-    (Skip testMember),
-    (Skip testSelectNApart),
-    (Skip testEvalIntExpr),
-    (Skip testEvalIdExpr),
-    (Skip testEvalMaybeExpr),
-    (Skip testPostfixExpr)
+    (Run testToSingletonLists),
+    (Run testListMap),
+    (Run testMember),
+    (Run testSelectNApart),
+    (Run testEvalIntExpr),
+    (Run testEvalIdExpr),
+    (Run testEvalMaybeExpr),
+    (Run testPostfixExpr)
   ]
 
 
