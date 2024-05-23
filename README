@@ -1,6 +1,15 @@
-Name:	    Monish Kumar Dhanasekar
-B-Number:	B01025975
-Email:		mdhanasekar@binghamton.edu
+Project Description:
+This project serves as an introduction to recursive and functional programming using the Haskell language. It offers an opportunity to delve into Haskell's expressive syntax and powerful functional programming concepts, such as pattern matching and higher-order functions.
 
-Add text here as needed to document the status of your project.
+Functionality:
+The project tasks the individual with implementing various functions specified in provided Haskell files using the Glasgow Haskell Compiler (ghc). These functions cover a wide range of operations, including expression evaluation, infix-to-postfix conversion, and optional value handling. Each function comes with specific implementation requirements that must be followed.
 
+Example 1: Evaluating Integer Expressions
+-- Input expression: Add (Const 5) (Mul (Const 3) (Const 2))
+-- Output: 11
+evalIntExpr (Add (Const 5) (Mul (Const 3) (Const 2))) = 11
+
+Example 2: Converting Infix Expressions to Postfix
+-- Input expression: Add (Const 5) (Mul (Const 3) (Const 2))
+-- Output: [Const 5, Const 3, Const 2, Mul, Add]
+postfixExpr (Add (Const 5) (Mul (Const 3) (Const 2))) = [Const 5, Const 3, Const 2, Mul, Add]
